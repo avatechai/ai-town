@@ -8,6 +8,7 @@ import { api, internal } from '../_generated/api';
 import * as embeddingsCache from './embeddingsCache';
 import { GameId, conversationId, playerId } from '../aiTown/ids';
 import { NUM_MEMORIES_TO_SEARCH } from '../constants';
+import { getEmotionPrompt } from '../../src/components/emotionsToEmoji';
 
 const selfInternal = internal.agent.conversation;
 const completionFn = UseOllama ? ollamaChatCompletion : chatCompletion;
@@ -46,6 +47,7 @@ export async function startConversationMessage(
   const prompt = [
     `You are ${player.name}, and you just started a conversation with ${otherPlayer.name}.`,
   ];
+  prompt.push(getEmotionPrompt());
   prompt.push(...agentPrompts(otherPlayer, agent, otherAgent ?? null));
   prompt.push(...previousConversationPrompt(otherPlayer, lastConversation));
   prompt.push(...relatedMemoriesPrompt(memories));
@@ -103,6 +105,7 @@ export async function continueConversationMessage(
     `Below is the current chat history between you and ${otherPlayer.name}.`,
     `DO NOT greet them again. Do NOT use the word "Hey" too often. Your response should be brief and within 200 characters.`,
   );
+  prompt.push(getEmotionPrompt());
 
   const llmMessages: LLMMessage[] = [
     {
@@ -153,6 +156,8 @@ export async function leaveConversationMessage(
     `Below is the current chat history between you and ${otherPlayer.name}.`,
     `How would you like to tell them that you're leaving? Your response should be brief and within 200 characters.`,
   );
+  prompt.push(getEmotionPrompt());
+
   const llmMessages: LLMMessage[] = [
     {
       role: 'user',

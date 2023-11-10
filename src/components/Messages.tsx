@@ -5,6 +5,37 @@ import { api } from '../../convex/_generated/api';
 import { MessageInput } from './MessageInput';
 import { Player } from '../../convex/aiTown/player';
 import { Conversation } from '../../convex/aiTown/conversation';
+import { emotionsToEmoji } from './emotionsToEmoji';
+import { useState } from 'react';
+
+function MessageTextEmotion(props: { text: String }) {
+  const [isHover, setIsHover] = useState(false);
+  if (props.text.endsWith('>')) {
+    const emotionTag = props.text.slice(props.text.lastIndexOf('<') + 1, -1);
+    const emotionEmoji = (emotionsToEmoji as any)[emotionTag];
+    if (emotionEmoji) {
+      return (
+        <div>
+          {props.text.slice(0, props.text.lastIndexOf('<'))}
+          <span
+            className="relative bg-white p-1 rounded-md"
+            onPointerEnter={() => setIsHover(true)}
+            onPointerLeave={() => setIsHover(false)}
+          >
+            {emotionEmoji}
+            {isHover && (
+              <span className="bg-white rounded-lg px-2 text-sm shadow-lg absolute -top-[100%] left-1/2 transform -translate-x-1/2">
+                {emotionTag}
+              </span>
+            )}
+          </span>
+        </div>
+      );
+    } else {
+      return props.text;
+    }
+  }
+}
 
 export function Messages({
   worldId,
@@ -53,7 +84,9 @@ export function Messages({
           </time>
         </div>
         <div className={clsx('bubble', m.author === humanPlayerId && 'bubble-mine')}>
-          <p className="bg-white -mx-3 -my-1">{m.text}</p>
+          <p className="bg-white -mx-3 -my-1">
+            <MessageTextEmotion text={m.text} />
+          </p>
         </div>
       </div>
     );

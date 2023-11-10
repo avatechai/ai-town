@@ -9,6 +9,7 @@ import { useSendInput } from '../hooks/sendInput';
 import { Player } from '../../convex/aiTown/player';
 import { GameId } from '../../convex/aiTown/ids';
 import { ServerGame } from '../hooks/serverGame';
+import { emotionsToEmoji } from './emotionsToEmoji';
 
 export default function PlayerDetails({
   worldId,
@@ -230,13 +231,22 @@ export default function PlayerDetails({
         </p>
       </div>
       {!isMe && playerConversation && playerStatus?.kind === 'participating' && (
-        <Messages
-          worldId={worldId}
-          engineId={engineId}
-          inConversationWithMe={inConversationWithMe ?? false}
-          conversation={{ kind: 'active', doc: playerConversation }}
-          humanPlayer={humanPlayer}
-        />
+        <>
+          <Messages
+            worldId={worldId}
+            engineId={engineId}
+            inConversationWithMe={inConversationWithMe ?? false}
+            conversation={{ kind: 'active', doc: playerConversation }}
+            humanPlayer={humanPlayer}
+          />
+          <div className="box flex-grow">
+            <h2 className="bg-brown-700 p-2 flex flex-row font-display text-4xl tracking-wider shadow-solid text-center overflow-x-auto">
+              {Object.entries(emotionsToEmoji).map(([key, value]) => (
+                <div key={key}>{value}</div>
+              ))}
+            </h2>
+          </div>
+        </>
       )}
       {!playerConversation && previousConversation && (
         <>
