@@ -5,7 +5,7 @@ import { Id } from '../../convex/_generated/dataModel';
 import { Player } from '../../convex/aiTown/player';
 import { Conversation } from '../../convex/aiTown/conversation';
 
-export function EmojiWriter({
+export function EmotionChanger({
   worldId,
   target,
   conversation,

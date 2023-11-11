@@ -9,8 +9,7 @@ import { useSendInput } from '../hooks/sendInput';
 import { Player } from '../../convex/aiTown/player';
 import { GameId } from '../../convex/aiTown/ids';
 import { ServerGame } from '../hooks/serverGame';
-import { emotionsToEmoji } from './emotionsToEmoji';
-import { EmojiWriter } from './EmojiWriter';
+import { EmotionChanger } from './EmotionChanger';
 
 export default function PlayerDetails({
   worldId,
@@ -245,24 +244,12 @@ export default function PlayerDetails({
               Change {playerDescription?.name}'s emotion
             </h2>
           </div>
-          <EmojiWriter
+          <EmotionChanger
             worldId={worldId}
             conversation={playerConversation}
             targetName={playerDescription?.name ?? ''}
             target={player}
           />
-
-          {/* <div className="box flex-grow mt-6">
-            <h2 className="bg-brown-700 text-lg text-center">
-              Change {playerDescription?.name}'s emotion
-            </h2>
-          </div>
-          <EmojiWriter
-            worldId={worldId}
-            conversation={playerConversation}
-            targetName={playerDescription?.name ?? ''}
-            target={player}
-          /> */}
         </>
       )}
       {!playerConversation && previousConversation && (
