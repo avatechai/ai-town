@@ -31,9 +31,9 @@ function MessageTextEmotion(props: { text: String }) {
           </span>
         </div>
       );
-    } else {
-      return props.text;
     }
+  } else {
+    return props.text;
   }
 }
 

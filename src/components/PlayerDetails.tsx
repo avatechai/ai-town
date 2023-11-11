@@ -10,6 +10,7 @@ import { Player } from '../../convex/aiTown/player';
 import { GameId } from '../../convex/aiTown/ids';
 import { ServerGame } from '../hooks/serverGame';
 import { emotionsToEmoji } from './emotionsToEmoji';
+import { EmojiWriter } from './EmojiWriter';
 
 export default function PlayerDetails({
   worldId,
@@ -239,13 +240,29 @@ export default function PlayerDetails({
             conversation={{ kind: 'active', doc: playerConversation }}
             humanPlayer={humanPlayer}
           />
-          <div className="box flex-grow">
-            <h2 className="bg-brown-700 p-2 flex flex-row font-display text-4xl tracking-wider shadow-solid text-center overflow-x-auto">
-              {Object.entries(emotionsToEmoji).map(([key, value]) => (
-                <div key={key}>{value}</div>
-              ))}
+          <div className="box flex-grow mt-6">
+            <h2 className="bg-brown-700 text-lg text-center">
+              Change {playerDescription?.name}'s emotion
             </h2>
           </div>
+          <EmojiWriter
+            worldId={worldId}
+            conversation={playerConversation}
+            targetName={playerDescription?.name ?? ''}
+            target={player}
+          />
+
+          {/* <div className="box flex-grow mt-6">
+            <h2 className="bg-brown-700 text-lg text-center">
+              Change {playerDescription?.name}'s emotion
+            </h2>
+          </div>
+          <EmojiWriter
+            worldId={worldId}
+            conversation={playerConversation}
+            targetName={playerDescription?.name ?? ''}
+            target={player}
+          /> */}
         </>
       )}
       {!playerConversation && previousConversation && (
